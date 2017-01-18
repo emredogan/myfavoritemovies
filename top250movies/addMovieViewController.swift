@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import SystemConfiguration
 
 class addMovieViewController: UIViewController {
     
@@ -19,37 +20,44 @@ class addMovieViewController: UIViewController {
     
     
     
-    @IBAction func addMovieButton(sender: AnyObject) {
+    @IBAction func addMovieButton(_ sender: AnyObject) {
         
-        
-            let urlString = "http://www.omdbapi.com/?t=\(String(titleTextView.text!))&y=\(String(yearTextView.text!))&plot=short&r=json"
+        if isInternetAvailable() == false {
+            let alert = UIAlertController(title: "Error", message: "Check that you have valid internet connection and try again", preferredStyle: UIAlertControllerStyle.alert)
+            let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            
+        } else {
+            
+            let urlString = "http://www.omdbapi.com/?t=\((titleTextView.text!))&y=\((yearTextView.text!))&plot=short&r=json"
             print(urlString)
-
-        
-        
-            let session = NSURLSession.sharedSession()
+            
+            
+            
+            let session = URLSession.shared
             
             do {
-                sleep(1)
+             //   sleep(1)
             } catch {
                 print("can't wait")
             }
             
             
-            let url = NSURL(string: urlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)!
+            let url = URL(string: urlString.addingPercentEscapes(using: String.Encoding.utf8)!)!
             
-            let app = UIApplication.sharedApplication().delegate as! AppDelegate
+            let app = UIApplication.shared.delegate as! AppDelegate
             let context = app.managedObjectContext
-            let entity = NSEntityDescription.entityForName("Movie", inManagedObjectContext: context)!
-            let movie = Movie(entity: entity, insertIntoManagedObjectContext: context)
-        
-        
-
-        
-        
+            let entity = NSEntityDescription.entity(forEntityName: "Movie", in: context)!
+            let movie = Movie(entity: entity, insertInto: context)
             
             
-            session.dataTaskWithURL(url, completionHandler: { (data: NSData?, response:  NSURLResponse?, error: NSError?) -> Void in
+            
+            
+            
+            
+            
+            session.dataTask(with: url, completionHandler: { (data: Data?, response:  URLResponse?, error: Error?) -> Void in
                 
                 if let responseData = data {
                     
@@ -61,7 +69,7 @@ class addMovieViewController: UIViewController {
                     
                     do {
                         
-                        let json = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
+                        let json = try JSONSerialization.jsonObject(with: responseData, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
                         
                         
                         
@@ -72,10 +80,10 @@ class addMovieViewController: UIViewController {
                             
                             let rating = json["imdbRating"] as! String
                             let length = json["Runtime"] as! String
-                            let title = json["Title"] as! String
+                            var title = json["Title"] as! String
                             let year = json["Year"] as! String
                             let imageLink = json["Poster"] as! String
-                            var imageURL = NSURL(string: "http://www.teachthought.com/wp-content/uploads/2013/10/designinspirationdotnet.jpg")
+                            var imageURL = URL(string: "http://www.teachthought.com/wp-content/uploads/2013/10/designinspirationdotnet.jpg")
                             
                             
                             
@@ -83,11 +91,11 @@ class addMovieViewController: UIViewController {
                             
                             if self.verifyUrl(imageLink) == true {
                                 
-                                imageURL = NSURL(string: imageLink)
+                                imageURL = URL(string: imageLink)
                                 
                             } else {
                                 
-                                imageURL = NSURL(string: "http://www.teachthought.com/wp-content/uploads/2013/10/designinspirationdotnet.jpg")
+                                imageURL = URL(string: "http://www.teachthought.com/wp-content/uploads/2013/10/designinspirationdotnet.jpg")
                                 
                             }
                             
@@ -96,11 +104,11 @@ class addMovieViewController: UIViewController {
                             
                             
                             
-                            let imagedData = NSData(contentsOfURL: imageURL!)!
+                            let imagedData = try! Data(contentsOf: imageURL!)
                             
                             
                             
-                            var image = UIImage(data: imagedData)
+                            let image = UIImage(data: imagedData)
                             
                             
                             
@@ -109,12 +117,15 @@ class addMovieViewController: UIViewController {
                             movie.length = length
                             movie.year = year
                             
+                            if movie.title == "" {
+                                movie.title = "Please wait"
+                            }
+                            
                             if let image = image {
                                 
                                 movie.setMovieImg(image)
                                 
                             } else {
-                                image = UIImage(named:"sample")
                                 movie.setMovieImg(image!)
                             }
                             
@@ -125,7 +136,7 @@ class addMovieViewController: UIViewController {
                             
                             
                             
-                            context.insertObject(movie)
+                            context.insert(movie)
                             print("movie \(movie.title))")
                             
                             do {
@@ -140,7 +151,7 @@ class addMovieViewController: UIViewController {
                             
                             
                             
-
+                            
                             
                             
                             
@@ -164,7 +175,7 @@ class addMovieViewController: UIViewController {
                                 
                                 
                                 
-                                context.insertObject(movie)
+                                context.insert(movie)
                                 print("movie \(movie.title))")
                                 
                                 do {
@@ -189,7 +200,7 @@ class addMovieViewController: UIViewController {
                             
                             
                         }
-                                                
+                        
                         
                         
                         
@@ -214,15 +225,22 @@ class addMovieViewController: UIViewController {
                 }
                 
             }).resume()
-        
-        do {
-            sleep(2)
-        } catch {
-            print("can't wait")
+            
+            //        do {
+            //            sleep(2)
+            //        } catch {
+            //            print("can't wait")
+            //        }
+            
+            
+            self.navigationController?.popViewController(animated: true)
+
+            
         }
 
         
-        self.navigationController?.popViewControllerAnimated(true)
+        
+        
         
         }
     
@@ -233,16 +251,37 @@ class addMovieViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    func isInternetAvailable() -> Bool
+    {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }
+        
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+            return false
+        }
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        return (isReachable && !needsConnection)
+    }
+    
     
     
 
-    func verifyUrl (urlString: String?) -> Bool {
+    func verifyUrl (_ urlString: String?) -> Bool {
         //Check for nil
         if let urlString = urlString {
             // create NSURL instance
-            if let url = NSURL(string: urlString) {
+            if let url = URL(string: urlString) {
                 // check if your application can open the NSURL instance
-                return UIApplication.sharedApplication().canOpenURL(url)
+                return UIApplication.shared.canOpenURL(url)
             }
         }
         return false

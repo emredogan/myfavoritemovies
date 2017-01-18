@@ -24,7 +24,7 @@ class MovieCell: UITableViewCell {
     
     
 
-    func configureCell(movie: Movie) {
+    func configureCell(_ movie: Movie) {
         movieTitle.text = movie.title
         movieRating.text = movie.rating
         movieLength.text = movie.length

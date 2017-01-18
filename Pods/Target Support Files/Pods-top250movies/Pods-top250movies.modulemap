@@ -1,0 +1,6 @@
+framework module Pods_top250movies {
+  umbrella header "Pods-top250movies-umbrella.h"
+
+  export *
+  module * { export * }
+}

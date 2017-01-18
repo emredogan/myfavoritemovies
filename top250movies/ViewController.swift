@@ -8,13 +8,30 @@
 
 import UIKit
 import CoreData
+import SystemConfiguration
+import Toast_Swift
+
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
-    
+
     
     var movies = [Movie]()
     var filteredMovies = [Movie]()
@@ -25,13 +42,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var shouldShowSearchResults = false
     
     
+    var refreshControl: UIRefreshControl!
+    
+    
+    
+    
+    
+        
     
     
     
     
     @IBOutlet weak var tableView: UITableView!
     
-    @IBAction func addMovie(sender: AnyObject) {
+    @IBAction func addMovie(_ sender: AnyObject) {
         
         
        
@@ -44,9 +68,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     
-    @IBAction func sortAz(sender: AnyObject) {
+    @IBAction func sortAz(_ sender: AnyObject) {
         
         SortList()
+        self.view.makeToast("This is a piece of toast")
+        
         
     }
     
@@ -55,16 +81,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.separatorColor = UIColor.darkGrayColor()
+        let myTimer = Timer(timeInterval: 1.0, target: self, selector: "reloadTableData", userInfo: nil, repeats: true)
+        RunLoop.main.add(myTimer, forMode: RunLoopMode.defaultRunLoopMode)
+        
+        
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(self.refresh), for: UIControlEvents.valueChanged)
+        tableView.addSubview(refreshControl)
+        
+        self.tableView.separatorColor = UIColor.darkGray
         
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
         
-        self.tableView.backgroundColor = UIColor.lightGrayColor()
+        self.tableView.backgroundColor = UIColor.lightGray
         
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: "longPress:")
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.longPress(_:)))
         tableView.addGestureRecognizer(longPressRecognizer)
         
         
@@ -81,7 +116,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         
         self.navigationController?.navigationBar.titleTextAttributes =
-            [NSForegroundColorAttributeName: UIColor.blackColor(),
+            [NSForegroundColorAttributeName: UIColor.black,
              NSFontAttributeName: UIFont(name: "ImpactT", size: 25)!]
         
         
@@ -281,40 +316,40 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
-    func longPress(longPressRecognizer: UILongPressGestureRecognizer) {
+    func longPress(_ longPressRecognizer: UILongPressGestureRecognizer) {
         
-        if longPressRecognizer.state == UIGestureRecognizerState.Began {
+        if longPressRecognizer.state == UIGestureRecognizerState.began {
             
-            let touchPoint = longPressRecognizer.locationInView(self.tableView)
-            if let indexPath = tableView.indexPathForRowAtPoint(touchPoint) {
+            let touchPoint = longPressRecognizer.location(in: self.tableView)
+            if let indexPath = tableView.indexPathForRow(at: touchPoint) {
                 
-                let alertController = UIAlertController(title: "Alert", message: "Delete post?", preferredStyle: .Alert)
+                let alertController = UIAlertController(title: "Alert", message: "Delete post?", preferredStyle: .alert)
                 
-                let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (action) in
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
                     
                 }
                 alertController.addAction(cancelAction)
                 
-                let OKAction = UIAlertAction(title: "OK", style: .Default) { (action: UIAlertAction!) in
+                let OKAction = UIAlertAction(title: "OK", style: .default) { (action: UIAlertAction!) in
                     
-                    let appDel:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let appDel:AppDelegate = UIApplication.shared.delegate as! AppDelegate
                     let context:NSManagedObjectContext = appDel.managedObjectContext
-                    context.deleteObject(self.movies[indexPath.row] )
-                    self.movies.removeAtIndex(indexPath.row)
+                    context.delete(self.movies[indexPath.row] )
+                    self.movies.remove(at: indexPath.row)
                     do {
                         try context.save()
                     } catch _ {
                     }
                     
                     // remove the deleted item from the `UITableView`
-                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-                    self.TabelaSemDados(self.movies)
+                    self.tableView.deleteRows(at: [indexPath], with: .fade)
+                    self.TabelaSemDados(self.movies as NSArray)
                     self.tableView.reloadData()
                     
                 }
                 alertController.addAction(OKAction)
                 
-                self.presentViewController(alertController, animated: true) {
+                self.present(alertController, animated: true) {
                     // ...
                 }
             }
@@ -328,51 +363,91 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     
+    func reloadTableData() {
+        
+        tableView.reloadData()
+        
+        
+    }
+    
+    func refresh(sender:AnyObject) {
+        tableView.reloadData()
+        
+        
+        
+        refreshControl.endRefreshing()
+    }
     
     
     
-    
-    func verifyUrl (urlString: String?) -> Bool {
+    func verifyUrl (_ urlString: String?) -> Bool {
         //Check for nil
         if let urlString = urlString {
             // create NSURL instance
-            if let url = NSURL(string: urlString) {
+            if let url = URL(string: urlString) {
                 // check if your application can open the NSURL instance
-                return UIApplication.sharedApplication().canOpenURL(url)
+                return UIApplication.shared.canOpenURL(url)
             }
         }
         return false
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         fetchAndSetResults()
         tableView.reloadData()
-        TabelaSemDados(self.movies)
+        TabelaSemDados(self.movies as NSArray)
+        movies.sort() { $0.title < $1.title } // sort the fruit by name
+        
+        
+        
     }
+    
+    
     
     func SortList() { // should probably be called sort and not filter
-        movies.sortInPlace() { $0.title < $1.title } // sort the fruit by name
+        movies.sort() { $0.title < $1.title } // sort the fruit by name
         tableView.reloadData(); // notify the table view the data has changed
         
-        let alert = UIAlertController(title: "Success", message: "Movies are sorted alphabetically", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        let alert = UIAlertController(title: "Success", message: "Movies are sorted alphabetically", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
         
     }
     
-    func TabelaSemDados(recipes:NSArray){
+    func isInternetAvailable() -> Bool
+    {
+        var zeroAddress = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+        zeroAddress.sin_family = sa_family_t(AF_INET)
+        
+        let defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {zeroSockAddress in
+                SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+            }
+        }
+        
+        var flags = SCNetworkReachabilityFlags()
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+            return false
+        }
+        let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0
+        let needsConnection = (flags.rawValue & UInt32(kSCNetworkFlagsConnectionRequired)) != 0
+        return (isReachable && !needsConnection)
+    }
+    
+    func TabelaSemDados(_ recipes:NSArray){
         if recipes.count == 0 {
             tableView.tableFooterView = UIView(frame: CGRect.zero)
             
             
-            var label = UILabel()
+            let label = UILabel()
             label.frame.size.height = 125
             label.frame.size.width = tableView.frame.size.width
             
             label.numberOfLines = 2
-            label.textColor = UIColor.grayColor()
+            label.textColor = UIColor.gray
             label.text = "  Press + to add new movies"
-            label.textAlignment = .Natural
+            label.textAlignment = .natural
             
             label.tag = 1
             
@@ -393,12 +468,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     func fetchAndSetResults() {
-        let app = UIApplication.sharedApplication().delegate as! AppDelegate
+        let app = UIApplication.shared.delegate as! AppDelegate
         let context = app.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: "Movie")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Movie")
         
         do {
-            let results = try context.executeFetchRequest(fetchRequest)
+            let results = try context.fetch(fetchRequest)
             self.movies = results as! [Movie]
         } catch let err as NSError {
             print(err.debugDescription)
@@ -411,26 +486,36 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
 
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell") as? MovieCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell") as? MovieCell {
             
             
             
-            let movie : Movie
+            var movie : Movie
             
             
             
-            if searchController.active && searchController.searchBar.text != "" {
+            if searchController.isActive && searchController.searchBar.text != "" {
                 movie = filteredMovies[indexPath.row]
-                cell.selectionStyle = UITableViewCellSelectionStyle.None
+                cell.selectionStyle = UITableViewCellSelectionStyle.none
                 cell.configureCell(movie)
+                
+                
+                
+                print("movie: \(movie)")
+                
+                
+                
             } else {
-                let movie = movies[indexPath.row]
-                cell.selectionStyle = UITableViewCellSelectionStyle.None
+                var movie = movies[indexPath.row]
+                cell.selectionStyle = UITableViewCellSelectionStyle.none
                 cell.configureCell(movie)
+                print("moviess: \(movie)")
+                
+                
             }
             
            
@@ -440,7 +525,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             
             
-            cell.backgroundColor = UIColor.clearColor()
+            cell.backgroundColor = UIColor.clear
             
             return cell
         } else {
@@ -448,49 +533,52 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             return MovieCell()
         }
         
+        
     }
     
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.active && searchController.searchBar.text != "" {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.isActive && searchController.searchBar.text != "" {
             return filteredMovies.count
         }
         return movies.count
     }
     
-    func deleteAllData(entity: String)
+    func deleteAllData(_ entity: String)
     {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: entity)
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
         fetchRequest.returnsObjectsAsFaults = false
         
         do
         {
-            let results = try managedContext.executeFetchRequest(fetchRequest)
+            let results = try managedContext.fetch(fetchRequest)
             for managedObject in results
             {
                 let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
-                managedContext.deleteObject(managedObjectData)
+                managedContext.delete(managedObjectData)
             }
         } catch let error as NSError {
             print("Detele all data in \(entity) error : \(error) \(error.userInfo)")
         }
     }
     
-    func filterContentForSearchText(searchText: String, scope: String = "All") {
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredMovies = movies.filter { movie in
-            return movie.title!.lowercaseString.containsString(searchText.lowercaseString)
+            return movie.title!.lowercased().contains(searchText.lowercased())
         }
         
         tableView.reloadData()
     }
+    
+    
     
     
     
@@ -501,7 +589,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 }
 
 extension ViewController: UISearchResultsUpdating {
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
 }

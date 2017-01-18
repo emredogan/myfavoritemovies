@@ -14,14 +14,14 @@ import CoreData
 
 extension Movie {
 
-    @NSManaged var image: NSData?
+    @NSManaged var image: Data?
     @NSManaged var title: String?
     @NSManaged var year: String?
     @NSManaged var rating: String?
     @NSManaged var length: String?
     @NSManaged var link: String?
     @NSManaged var status: String?
-    @NSManaged var statusImage: NSData?
+    @NSManaged var statusImage: Data?
 
 }
 

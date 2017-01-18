@@ -19,7 +19,7 @@ class Movie: NSManagedObject {
 
     
     
-    func setMovieImg(img: UIImage) {
+    func setMovieImg(_ img: UIImage) {
         
         let data = UIImageJPEGRepresentation(img, 1)
         self.image = data
@@ -30,12 +30,12 @@ class Movie: NSManagedObject {
         
         if let image = image {
             
-            let img = UIImage(data: self.image!)
+            let img = UIImage(data: self.image! as Data)
             return img!
             
         } else {
             
-            let img = UIImage(named: "sample")
+            let img = UIImage(named: "sample2")
             return img!
         }
         
