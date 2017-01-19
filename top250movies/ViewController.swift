@@ -31,6 +31,12 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     
+    
+    
+    
+    
+    
+    
 
     
     var movies = [Movie]()
@@ -55,8 +61,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var tableView: UITableView!
     
-    @IBAction func addMovie(_ sender: AnyObject) {
+    @IBAction func addMovie(_ sender: UIButton!) {
         
+                
         
        
         
@@ -71,7 +78,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBAction func sortAz(_ sender: AnyObject) {
         
         SortList()
-        self.view.makeToast("This is a piece of toast")
+        
         
         
     }
@@ -101,16 +108,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(ViewController.longPress(_:)))
         tableView.addGestureRecognizer(longPressRecognizer)
-        
-        
-        
-                
-//        do {
-//            sleep(5)
-//        } catch {
-//            print("can't wait")
-//        }
-//        
+  
         
         self.navigationItem.title = "MY MOVIES";
 
@@ -123,198 +121,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         
         
-//        
-//        do {
-//            sleep(5)
-//        } catch {
-//            print("can't wait")
-//        }
-
-        
+ 
         tableView.delegate = self
         tableView.dataSource = self
         
         
         
         
-//        var i = 0
-//        
-//        while i < 5 {
-//            
-//            
-//            
-//            
-//            let urlString = "http://www.omdbapi.com/?t=\(moviesList[i])&y=\(moviesYears[i])&plot=short&r=json"
-//            
-////            do {
-////                sleep(1)
-////            } catch {
-////                print("can't wait")
-////            }
-//            
-//            
-//            
-//            
-//            
-//            let session = NSURLSession.sharedSession()
-//            
-//            do {
-//                sleep(1)
-//            } catch {
-//                print("can't wait")
-//            }
-//
-//            
-//            let url = NSURL(string: urlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!)!
-//            
-//            let app = UIApplication.sharedApplication().delegate as! AppDelegate
-//            let context = app.managedObjectContext
-//            let entity = NSEntityDescription.entityForName("Movie", inManagedObjectContext: context)!
-//            let movie = Movie(entity: entity, insertIntoManagedObjectContext: context)
-//            
-//            print(i)
-//            
-//            
-//            
-//            session.dataTaskWithURL(url, completionHandler: { (data: NSData?, response:  NSURLResponse?, error: NSError?) -> Void in
-//                
-//                if let responseData = data {
-//                    
-//                    print("processing \(urlString)")
-//                    print(i)
-//                    
-//                    
-//                    
-//                    
-//                    
-//                    do {
-//                        
-//                        let json = try NSJSONSerialization.JSONObjectWithData(responseData, options: NSJSONReadingOptions.MutableContainers) as! NSDictionary
-//                        
-//                        
-//                        
-//                        print(urlString)
-//                        print(self.moviesList[i])
-//                        print(self.moviesYears[i])
-//                        
-//                        
-//                        
-//                        
-//                        let rating = json["imdbRating"] as! String
-//                        let length = json["Runtime"] as! String
-//                        let title = json["Title"] as! String
-//                        let year = json["Year"] as! String  
-//                        let imageLink = json["Poster"] as! String
-//                        var imageURL = NSURL(string: "http://www.teachthought.com/wp-content/uploads/2013/10/designinspirationdotnet.jpg")
-//                        
-//                        
-//                        
-//                        if self.verifyUrl(imageLink) == true {
-//                            
-//                            imageURL = NSURL(string: imageLink)
-//                            
-//                        } else {
-//                            
-//                            imageURL = NSURL(string: "http://www.teachthought.com/wp-content/uploads/2013/10/designinspirationdotnet.jpg")
-//                            
-//                        }
-//                        
-//                        
-//                        
-//                        
-//                        
-//                        
-//                        let imagedData = NSData(contentsOfURL: imageURL!)!
-//                        
-//                        
-//                        
-//                        var image = UIImage(data: imagedData)
-//                        
-//                        
-//                        
-//                        movie.title = title
-//                        movie.rating = rating
-//                        movie.length = length
-//                        movie.year = year
-//                        
-//                        if let image = image {
-//                            
-//                            movie.setMovieImg(image)
-//                            
-//                        } else {
-//                            image = UIImage(named:"matrix.png")
-//                        }
-//                        
-//                        
-//                        
-//                        
-//                        
-//                    
-//                        
-//                        
-//                        context.insertObject(movie)
-//                        print("movie \(movie.title))")
-//                        
-//                        do {
-//                            try context.save()
-//                            print("success \(movie.title))")
-//                            self.fetchAndSetResults()
-//                        } catch {
-//                            print("Could not save movie")
-//                        }
-//                        
-//                        
-//                        
-//                        
-//                        
-//                    
-//                    
-//                        
-//                        
-//                    } catch {
-//                        
-//                        print("could not serialize")
-//                        
-//                    }
-//                    
-//                    
-//                    
-//                    
-//                    
-//                }
-//                
-//            }).resume()
-//            
-//            if i == 249  {
-//                
-//                break
-//            } else {
-//                
-//                i = i + 1
-//                
-//            }
-//            
-//            
-//            
-//
-//            
-//        }
-//        
-//        for movie in movies {
-//            print (movie.title)
-//        }
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//       
-//        
-        
+ 
     }
+    
+    
     
     func longPress(_ longPressRecognizer: UILongPressGestureRecognizer) {
         
@@ -397,6 +214,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.reloadData()
         TabelaSemDados(self.movies as NSArray)
         movies.sort() { $0.title < $1.title } // sort the fruit by name
+        
+        self.view.makeToast("Movie list is refreshed")
         
         
         
@@ -510,7 +329,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
                 
             } else {
-                var movie = movies[indexPath.row]
+                movie = movies[indexPath.row]
                 cell.selectionStyle = UITableViewCellSelectionStyle.none
                 cell.configureCell(movie)
                 print("moviess: \(movie)")
@@ -536,10 +355,40 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
     
+    func tableView(_ didSelectRowAttableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("You selected cell #\(indexPath.row)!")
+        
+        var movie: Movie!
+        
+        
+        
+        
+        if searchController.isActive && searchController.searchBar.text != "" {
+            movie = filteredMovies[(indexPath.row)]
+            
+            
+            
+            
+            
+        } else {
+            movie = movies[(indexPath.row)]
+            
+        }
+        
+        //    performSegue(withIdentifier: "movieDetailsVC", sender: movie)
+        print("noww")
+        
+        
+        
+    }
+    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
+    
+
     
     
     
@@ -581,6 +430,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "movieDetailsVC" {
+            if let movieDetailsVC = segue.destination as? movieDetailsVC {
+                let selectedRow = tableView.indexPathForSelectedRow?.row
+                var movie: Movie!
+                if searchController.isActive && searchController.searchBar.text != "" {
+                    movie = filteredMovies[(selectedRow)!]
+                    
+                    
+                    
+                    
+                    
+                } else {
+                    movie = movies[(selectedRow)!]
+                    
+                }
+                
+                movieDetailsVC.movie = movie
+            }
+        }
+    }
+    
     
    
 
@@ -588,9 +459,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
 }
 
+
+
 extension ViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
     }
 }
+
+
 

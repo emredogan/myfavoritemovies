@@ -141,6 +141,7 @@ class addMovieViewController: UIViewController {
                             
                             do {
                                 try context.save()
+                                
                                 print("success \(movie.title))")
                                 
                                 
@@ -180,6 +181,7 @@ class addMovieViewController: UIViewController {
                                 
                                 do {
                                     try context.save()
+                                    
                                     print("success \(movie.title))")
                                     
                                     
@@ -233,7 +235,8 @@ class addMovieViewController: UIViewController {
             //        }
             
             
-            self.navigationController?.popViewController(animated: true)
+            let _ = navigationController?.popViewController(animated: true)
+
 
             
         }
@@ -250,6 +253,8 @@ class addMovieViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    
     
     func isInternetAvailable() -> Bool
     {

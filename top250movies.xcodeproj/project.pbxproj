@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2B5404F8F41CC8E8BCDB0C17 /* Pods_top250movies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75EE2D2ACAD3708CDEC1BF14 /* Pods_top250movies.framework */; };
 		631561FA1DE2584600557FFF /* addMovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631561F91DE2584600557FFF /* addMovieViewController.swift */; };
+		6341B6E31E30C43C007D74CE /* movieDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6341B6E21E30C43C007D74CE /* movieDetailsVC.swift */; };
 		63ACBF0F1DD1344D009B6629 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACBF0E1DD1344D009B6629 /* AppDelegate.swift */; };
 		63ACBF111DD1344D009B6629 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63ACBF101DD1344D009B6629 /* ViewController.swift */; };
 		63ACBF141DD1344D009B6629 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63ACBF121DD1344D009B6629 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		631561F91DE2584600557FFF /* addMovieViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = addMovieViewController.swift; sourceTree = "<group>"; };
+		6341B6E21E30C43C007D74CE /* movieDetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = movieDetailsVC.swift; sourceTree = "<group>"; };
 		63ACBF0B1DD1344C009B6629 /* top250movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = top250movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63ACBF0E1DD1344D009B6629 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63ACBF101DD1344D009B6629 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				63ACBF101DD1344D009B6629 /* ViewController.swift */,
+				6341B6E21E30C43C007D74CE /* movieDetailsVC.swift */,
 				631561F91DE2584600557FFF /* addMovieViewController.swift */,
 			);
 			name = Controller;
@@ -261,6 +264,7 @@
 				63ACBF0F1DD1344D009B6629 /* AppDelegate.swift in Sources */,
 				63D340F51DD3C8C300ED3AEF /* MovieCell.swift in Sources */,
 				63ACBF111DD1344D009B6629 /* ViewController.swift in Sources */,
+				6341B6E31E30C43C007D74CE /* movieDetailsVC.swift in Sources */,
 				63D340F31DD3C67400ED3AEF /* Movie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

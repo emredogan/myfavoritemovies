@@ -28,7 +28,7 @@ class Movie: NSManagedObject {
     
     func getMovieImg() -> UIImage {
         
-        if let image = image {
+        if image != nil {
             
             let img = UIImage(data: self.image! as Data)
             return img!

@@ -16,6 +16,38 @@
         </array>
     </customFonts>
     <scenes>
+        <!--Movie DetailsVC-->
+        <scene sceneID="jia-gg-j8j">
+            <objects>
+                <viewController id="nFj-Ry-tQl" customClass="movieDetailsVC" customModule="top250movies" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4ZF-eU-lan"/>
+                        <viewControllerLayoutGuide type="bottom" id="0zE-s9-UhG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="OnT-Qa-A1t">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sample2" translatesAutoresizingMaskIntoConstraints="NO" id="fCx-vN-1OY">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fCx-vN-1OY" firstAttribute="leading" secondItem="OnT-Qa-A1t" secondAttribute="leading" id="5e4-9p-iHA"/>
+                            <constraint firstItem="0zE-s9-UhG" firstAttribute="top" secondItem="fCx-vN-1OY" secondAttribute="bottom" id="eam-AM-Atl"/>
+                            <constraint firstItem="fCx-vN-1OY" firstAttribute="top" secondItem="4ZF-eU-lan" secondAttribute="bottom" id="gge-3O-sIh"/>
+                            <constraint firstAttribute="trailing" secondItem="fCx-vN-1OY" secondAttribute="trailing" id="vue-eq-IbF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="movieDetailImage" destination="fCx-vN-1OY" id="QrR-jp-mRL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R5d-Be-vf2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="66.666666666666671" y="348.91304347826087"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -128,6 +160,7 @@
                                             <outlet property="movieRating" destination="8hd-eq-PO9" id="tH3-Ra-LQi"/>
                                             <outlet property="movieTitle" destination="oP2-0f-luT" id="yTR-VC-aHG"/>
                                             <outlet property="movieYear" destination="ikb-hO-CAl" id="y6n-ab-R7r"/>
+                                            <segue destination="nFj-Ry-tQl" kind="show" identifier="movieDetailsVC" id="TNc-4R-VUj"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -163,7 +196,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1117" y="349"/>
+            <point key="canvasLocation" x="997" y="349"/>
         </scene>
         <!--Add Movie View Controller-->
         <scene sceneID="ZAr-ZN-qWN">
@@ -260,25 +293,30 @@
         <!--Navigation Controller-->
         <scene sceneID="k94-Fs-fXj">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rwg-iu-RM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="g8I-V9-ag8" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6bR-NH-mMU">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="6bR-NH-mMU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.90196078431372551" green="0.72549019607843135" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="cWb-h5-5aD">
+                        <rect key="frame" x="0.0" y="692" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="fjc-OR-wAn"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Rwg-iu-RM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="369" y="1009"/>
+            <point key="canvasLocation" x="204" y="1086"/>
         </scene>
     </scenes>
     <resources>
         <image name="matrix" width="182" height="268"/>
+        <image name="sample2" width="320" height="480"/>
         <image name="star" width="280" height="248"/>
     </resources>
 </document>
