@@ -56,7 +56,7 @@
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -89,10 +89,10 @@
                                                     </variation>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleAspectFill" misplaced="YES" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="HQ6-Pw-JWT">
-                                                    <rect key="frame" x="121" y="29" width="250" height="104"/>
+                                                    <rect key="frame" x="121" y="29" width="250" height="105"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Catch me if you can" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oP2-0f-luT">
-                                                            <rect key="frame" x="0.0" y="0.0" width="250.00000000000003" height="20"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="250" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="250" id="aFJ-Lq-hZN"/>
                                                             </constraints>
@@ -101,13 +101,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1999" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ikb-hO-CAl">
-                                                            <rect key="frame" x="0.0" y="25.000000000000004" width="39" height="20.333333333333339"/>
+                                                            <rect key="frame" x="0.0" y="25" width="39" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="D35-wZ-fmG">
-                                                            <rect key="frame" x="0.0" y="50.333333333333329" width="62" height="28"/>
+                                                            <rect key="frame" x="0.0" y="51" width="62" height="28"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star" translatesAutoresizingMaskIntoConstraints="NO" id="laR-4B-s6I">
                                                                     <rect key="frame" x="0.0" y="0.0" width="28" height="28"/>
@@ -128,7 +128,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="136 min" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNw-ar-44r">
-                                                            <rect key="frame" x="0.0" y="83.333333333333329" width="60.666666666666686" height="20.333333333333343"/>
+                                                            <rect key="frame" x="0.0" y="84" width="61" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -293,10 +293,9 @@
         <!--Navigation Controller-->
         <scene sceneID="k94-Fs-fXj">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Rwg-iu-RM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="g8I-V9-ag8" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="6bR-NH-mMU">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6bR-NH-mMU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.90196078431372551" green="0.72549019607843135" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -310,6 +309,7 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="fjc-OR-wAn"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rwg-iu-RM4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="204" y="1086"/>
         </scene>
