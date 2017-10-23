@@ -30,18 +30,19 @@ class addMovieViewController: UIViewController {
             
         } else {
             
-            let urlString = "http://www.omdbapi.com/?t=\((titleTextView.text!))&y=\((yearTextView.text!))&plot=short&r=json"
-            print(urlString)
+//            let urlString = "http://www.omdbapi.com/?t=\((titleTextView.text!))&y=\((yearTextView.text!))&plot=short&r=json"
+            
+            let urlString = "http://theapache64.xyz:8080/movie_db/search?keyword=\((titleTextView.text!))"
+            
+            
+      //      "http://theapache64.xyz:8080/movie_db/search?keyword=[YOUR-KEYWORD]"
+            print("url string: EMRE: \(urlString)")
             
             
             
             let session = URLSession.shared
             
-            do {
-             //   sleep(1)
-            } catch {
-                print("can't wait")
-            }
+             print("Devam 1")
             
             
             let url = URL(string: urlString.addingPercentEscapes(using: String.Encoding.utf8)!)!
@@ -50,6 +51,8 @@ class addMovieViewController: UIViewController {
             let context = app.managedObjectContext
             let entity = NSEntityDescription.entity(forEntityName: "Movie", in: context)!
             let movie = Movie(entity: entity, insertInto: context)
+            
+           
             
             
             
@@ -289,6 +292,7 @@ class addMovieViewController: UIViewController {
                 return UIApplication.shared.canOpenURL(url)
             }
         }
+        print("can't verify url")
         return false
 }
 }
